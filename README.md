@@ -1,11 +1,10 @@
 # Pointman OpenCode client
 
 A standalone client extension for OpenCode **2.2.1**, using the machine's existing
-OpenCode sign-in. Local review only: no remote repository, release or installation
-has been created. The official mark still needs downloading and approval.
+OpenCode sign-in. Its official icon is recorded in ICON-SOURCE.md.
 
 Requires Pointman node **0.4.3 or newer with AGC-75 support**: `opencode-stream`,
-machine-data path preservation, native MCP conversion and isolation guards.
+machine-data path preservation, native MCP conversion and private agent configuration.
 The manifest alone does not provide these features; older nodes must reject it.
 The runtime owner confirmed the 0.4.3 release floor.
 
@@ -40,8 +39,7 @@ Pointman refuses `acceptEdits` mode: OpenCode's `--auto` would also approve shel
 and tool operations, so it cannot represent that narrower permission mode.
 The prompt is one argv item after `--`, including when it starts with a dash.
 The supplied model wins; otherwise private config selects
-`zai-coding-plan/glm-5.3`. Plan mode uses `--agent plan` without `--auto`;
-acceptEdits currently maps to OpenCode's `--auto`, which is broader than edit-only.
+`zai-coding-plan/glm-5.3`. Plan mode uses `--agent plan` without `--auto`.
 Instructions are appended to the prompt by the node, avoiding file discovery.
 
 ## Isolation contract
@@ -67,19 +65,11 @@ Local entries use `type: local`, an argv-array `command`, and `environment`.
 Generic key renaming cannot perform this conversion. See the synthetic fixture
 in `tests/fixtures/mcp-contract.json`.
 
-OpenCode also loads system/MDM configuration and
-credential-linked wellknown remote configuration. Private config and project
-flags do not suppress these sources. The runtime must fail closed when they
-could supply foreign configuration; do not claim complete isolation from just
-`OPENCODE_CONFIG_CONTENT`. System/MDM paths were absent on this machine when
-checked. Shared-data/wellknown checks require authorized machine-data access and
-were not performed here. The CLI has no verified environment flag to turn all
-these sources off. The node candidate now refuses managed files and checks
-`wellknown:sources` and legacy import metadata read-only using its own Python
-runtime. Unknown or unreadable metadata stops a run. Synthetic tests cover this
-guard; effective isolation on the signed-in machine still needs acceptance.
-These startup checks are not atomic with another local process changing policy
-during a run.
+Private `XDG_CONFIG_HOME` keeps the machine's user config out of agent runs.
+Effective config and remember/recall runs were verified with OpenCode 2.2.1 on
+mac-m4. No Python or database preflight runs before the client starts.
+If OpenCode produces no stdout within 120 seconds, the node ends the run with
+"OpenCode didn't start" and the timeout, rather than waiting silently.
 
 Shared machine data includes sessions, logs and credentials, so this is config
 isolation, not a security boundary between mutually untrusted agents. OpenCode
@@ -101,8 +91,9 @@ to check a particular installation. Native stream decoding tests belong in the
 Pointman node; this repo does not invent a captured native stream.
 
 The installed binary reported v2.2.1 and confirmed all required run flags.
-`debug config --standalone` could not start its private server in this sandbox;
-resolved config, actual sign-in reuse, model calls, two-wake resume, OAuth refresh,
-MCP tools, usage-limit events, hosted CI and Linux/NixOS were not verified here.
+Runtime review verified isolated effective config and a signed-in remember/recall
+pair on mac-m4. Real native captures are used in the Pointman node's goldens.
+Live Pointman MCP acceptance, OAuth refresh, hosted packaging CI and Linux/NixOS
+remain release checks.
 
 Sources and exact installed-code evidence are in [research/isolation.md](research/isolation.md).
