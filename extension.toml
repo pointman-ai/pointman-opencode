@@ -46,7 +46,8 @@ OPENCODE_DISABLE_CLAUDE_CODE_SKILLS = "1"
 [client.run.permissions]
 default = ["--auto"]
 auto = ["--auto"]
-acceptEdits = ["--auto"]
+# The node refuses acceptEdits: --auto would also approve shell/tools.
+acceptEdits = []
 plan = ["--agent", "plan"]
 
 [client.instructions]

@@ -58,6 +58,7 @@ class Contract(unittest.TestCase):
         self.assertEqual(CLIENT['mcp']['settings']['model'], 'zai-coding-plan/glm-5.3')
         permissions = CLIENT['run']['permissions']
         self.assertEqual(permissions['default'], ['--auto'])
+        self.assertEqual(permissions['acceptEdits'], [])
         self.assertEqual(permissions['plan'], ['--agent', 'plan'])
         self.assertNotIn('--auto', permissions['plan'])
 

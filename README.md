@@ -2,7 +2,7 @@
 
 A standalone client extension for OpenCode **2.2.1**, using the machine's existing
 OpenCode sign-in. Local review only: no remote repository, release or installation
-has been created. The icon is a review candidate until approved.
+has been created. The official mark still needs downloading and approval.
 
 Requires Pointman node **0.4.3 or newer with AGC-75 support**: `opencode-stream`,
 machine-data path preservation, native MCP conversion and isolation guards.
@@ -32,8 +32,12 @@ opencode run --standalone --format json --session <node-chosen-id> --auto -m <pr
 
 Both first and later wakes use the same explicit `--session` argument. The CLI
 creates the ID if missing and resumes it otherwise. Never use `--continue` or
-attach to the person's background service. The node must generate an ID accepted
-by OpenCode's native session schema (the runtime owns that validation).
+attach to the person's background service. The node maps Pointman's stored UUID to `ses_<uuid>`, as required by the installed
+OpenCode Session.ID schema, and maps events back to the same stored UUID.
+
+Default and auto modes use `--auto`; plan selects OpenCode's plan agent.
+Pointman refuses `acceptEdits` mode: OpenCode's `--auto` would also approve shell
+and tool operations, so it cannot represent that narrower permission mode.
 The prompt is one argv item after `--`, including when it starts with a dash.
 The supplied model wins; otherwise private config selects
 `zai-coding-plan/glm-5.3`. Plan mode uses `--agent plan` without `--auto`;
@@ -63,14 +67,19 @@ Local entries use `type: local`, an argv-array `command`, and `environment`.
 Generic key renaming cannot perform this conversion. See the synthetic fixture
 in `tests/fixtures/mcp-contract.json`.
 
-**Release blocker:** OpenCode also loads system/MDM configuration and
+OpenCode also loads system/MDM configuration and
 credential-linked wellknown remote configuration. Private config and project
 flags do not suppress these sources. The runtime must fail closed when they
 could supply foreign configuration; do not claim complete isolation from just
 `OPENCODE_CONFIG_CONTENT`. System/MDM paths were absent on this machine when
 checked. Shared-data/wellknown checks require authorized machine-data access and
 were not performed here. The CLI has no verified environment flag to turn all
-these sources off. A guard must also account for sources changing during a run.
+these sources off. The node candidate now refuses managed files and checks
+`wellknown:sources` and legacy import metadata read-only using its own Python
+runtime. Unknown or unreadable metadata stops a run. Synthetic tests cover this
+guard; effective isolation on the signed-in machine still needs acceptance.
+These startup checks are not atomic with another local process changing policy
+during a run.
 
 Shared machine data includes sessions, logs and credentials, so this is config
 isolation, not a security boundary between mutually untrusted agents. OpenCode
