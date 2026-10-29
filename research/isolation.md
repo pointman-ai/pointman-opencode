@@ -29,3 +29,26 @@ conversion, sanitized ambient variables, and fail-closed treatment of remaining
 system/MDM/wellknown sources. There is no verified CLI switch disabling all of
 those sources. Data access and permission scope remain the parent/runtime owner's
 responsibility; never read credential values to diagnose this.
+
+## Exact stored remote configuration path (installed 2.2.1)
+
+The SQL table is `kv`; its `key` column is the text primary key and `value` is
+non-null JSON text. The KV service's schema uses JSON decoding, and `KV.get`
+selects that value by key. `WellKnown.load` reads `wellknown:sources` as an array
+of origin strings. Each origin can use `wellknown:manifest:<origin>` and
+`wellknown:config:<origin>` cached entries. `Config.loadWellknown` then resolves
+those origins into configuration documents. This bypasses private user config.
+
+Migration `20260805200742_import_legacy_credentials` reads legacy `auth.json`
+from the data root. Entries with `type: wellknown` contribute origins to
+`wellknown:sources` using an INSERT/UPDATE on `kv`. A check of only an empty or
+missing current KV row cannot exclude imports that occur during startup. This
+is code evidence; no actual auth file or database was opened. The implementation
+owner must account for pending migration as well as concurrent changes, without
+printing or copying credential values.
+
+Small exact code excerpts are in `installed-evidence.json`, with binary offsets:
+`kv-schema`, `kv-service`, `wellknown-load`, `legacy-wellknown-migration`.
+No supported CLI/environment override for this discovery path was found. Internal
+Config options include global/system toggles, but the inspected CLI environment
+wiring does not expose those toggles; do not invent an environment variable.
