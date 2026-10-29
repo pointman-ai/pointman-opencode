@@ -14,8 +14,10 @@ home_env = "HOME"
 api_keys = ["ZAI_API_KEY", "ZHIPUAI_API_KEY", "ZHIPU_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY", "OPENCODE_API_KEY"]
 
 [client.install]
-# OpenCode 2.2.1 is required; stable npm may install a different CLI generation.
-from = "native"
+# Official binaries are checksum-verified and repacked by this repository.
+from = "release"
+repo = "pointman-ai/pointman-opencode"
+asset = "opencode-{platform}.tar.gz"
 
 [client.sign_in]
 how = "opencode auth login (in your normal machine environment)"

@@ -1,0 +1,26 @@
+name: Verify and repack official OpenCode
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  repack:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [darwin-arm64, darwin-x64, linux-arm64, linux-x64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m unittest discover -s tests -v
+      - name: Download pinned upstream archive and verify checksum
+        run: python3 scripts/repack.py --target '${{ matrix.target }}' --download --output release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: opencode-${{ matrix.target }}
+          path: release/*
+          if-no-files-found: error

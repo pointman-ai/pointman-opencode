@@ -7,15 +7,20 @@ has been created. The icon is a review candidate until approved.
 Requires Pointman node **0.4.3 or newer with AGC-75 support**: `opencode-stream`,
 machine-data path preservation, native MCP conversion and isolation guards.
 The manifest alone does not provide these features; older nodes must reject it.
-The node release floor is provisional until the runtime owner confirms it.
+The runtime owner confirmed the 0.4.3 release floor.
 
 ## Install and sign in
 
 Install the official OpenCode v2 CLI for the machine, then run `opencode auth login`
-in the ordinary machine environment. Pointman uses native installation discovery;
-it does not install npm's potentially different CLI generation. mac-m4 currently
+in the ordinary machine environment. The release installer uses this repository’s checksum-verified repacks of official
+2.2.1 binaries; it does not install npm’s potentially different CLI generation. mac-m4 currently
 has `/opt/homebrew/bin/opencode`, version 2.2.1. Other platforms are unverified.
 No key form or vault secret is defined by this extension.
+
+The repository has no published release yet. The artifact-only `repack.yml`
+workflow downloads pinned official archives and produces node-compatible archives
+plus checksums. It does not publish a release. The existing release-extension
+workflow remains the publication path after review. See [UPSTREAM.md](UPSTREAM.md).
 
 ## A wake
 

@@ -14,11 +14,11 @@ CLIENT = MANIFEST['client']
 
 
 class Contract(unittest.TestCase):
-    def test_install_requires_native_v2_runtime(self):
+    def test_install_requires_reviewed_release(self):
         self.assertEqual(MANIFEST['extension']['id'], 'opencode')
         self.assertEqual(CLIENT['protocol'], 'opencode-stream')
         self.assertEqual(CLIENT['binaries'], ['opencode'])
-        self.assertEqual(CLIENT['install'], {'from': 'native'})
+        self.assertEqual(CLIENT['install'], {'from': 'release', 'repo': 'pointman-ai/pointman-opencode', 'asset': 'opencode-{platform}.tar.gz'})
         self.assertNotIn('npm', CLIENT)
 
     def test_exact_session_and_prompt_boundary(self):
