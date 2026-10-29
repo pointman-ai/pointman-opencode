@@ -1,0 +1,28 @@
+{
+  "binary": "/opt/homebrew/Cellar/opencode-v2/2.2.1/bin/opencode",
+  "version": "2.2.1",
+  "sha256": "7cd7cda88168b29cdfbac704c056a9a3bc6e0e57c6c56cb593835639983e0d0c",
+  "checked": "2026-10-29",
+  "snippets": {
+    "global": {
+      "offset": 138195198,
+      "text": "ses.mkdir(g,{recursive:!0}))));let d=yield*fe(()=>c.promises.realpath(e.tmp));return Or.of({...e,tmp:o.tmp??d})}),G=Y(Or,M(()=>l({config:process.env.OPENCODE_CONFIG_DIR??$d.config}))),fc=jt({service:Or,layer:G,deps:[]}),A6=(o)=>Y(Or,l(o));\nexport{$d,Or,MTe,fc,A6,ure};\n\u0000// @bun @bytecode\nimport{j6}from\"/$bunfs/root/chunk-yhvk0d4h.js\";import{Ht,Xd,Iv,ZR,W9}from\"/$bunfs/root/chunk-0xyyap25.js\";import{dl,P,Ta,g,_,At}from\"/$bunfs/root/chunk-xmbc3x4d.js\";import{o,U,Bg}from\"/$bunfs/root/chunk-bafjkc0b.js\";import{w}from\"/$bunfs/root/chunk-kcmrac58.js\";var cke={};w(cke,{fdName:()=>aL,isCommand:()=>u,isPipedCommand:()=>T,isStandardCommand:()=>N,make:()=>Xs,parseFdName:()=>cv,pipeTo"
+    },
+    "cli-options": {
+      "offset": 140217060,
+      "text": "s.env.OPENCODE_MODELS_PATH,fetch:!O(process.env.OPENCODE_DISABLE_MODELS_FETCH)},config:{directory:process.env.OPENCODE_CONFIG_DIR,project:!O(process.env.OPENCODE_CONFIG_PROJECT_DISABLE??process.env.OPENCODE_DISABLE_PROJECT_CONFIG),claude:!(O(process.env.OPENCODE_DISABLE_CLAUDE_CODE)||O(process.env.OPENCODE_DISABLE_CLAUDE_CODE_SKILLS)),file:process.env.OPENCODE_CONFIG,content:process.env.OPENCODE_CONFIG_CONTENT},windows:{gitbash:process.env.OPENCODE_GIT_BASH_PATH},fs:{filewatcher:!O(process.env.OPENCODE_FILEWATCHER_DISABLE??process.env.OPENCODE_DISABLE_FILEWATCHER),fff:process.env.OPENCODE_DISABLE_FFF===void 0?!0:!O(process.env.OPENCODE_DISABLE_FFF)}},d===void 0?void 0:{on"
+    },
+    "database": {
+      "offset": 140207758,
+      "text": "bxe,xxe,Nxe,YAe,uu,Lp,Xee,vxe,Cxe,Zee,Sxe};\n\u0000// @bun @bytecode\nimport{rl}from\"/$bunfs/root/chunk-rr8e34jr.js\";import r from\"path\";function q4(o){let e=process.env.OPENCODE_DB??([\"latest\",\"dev\",\"beta\",\"next\",\"prod\"].includes(rl)||process.env.OPENCODE_DISABLE_CHANNEL_DB===\"1\"||process.env.OPENCODE_DISABLE_CHANNEL_DB===\"true\"?\"opencode.db\":`opencode-${rl.replace(/[^a-zA-Z0-9._-]/g,\"-\")}.db`);return e===\":memory:\"?e:r.resolve(o,e)}\nexport{q4};\n\u0000// @bun @bytecode\nimport\"/$bunfs/root/chunk-yy75ssm4.js\";import\"/$bunfs/root/chunk-2gbd7vrv.js\";import{Or,fc,A6}from\"/$bunfs/root/chunk-ww8k7w8c.js\";import\"/$bunfs/root/chunk-m1c2htyt.js\";import\"/$bunfs/root/chunk-7fjt3ppm.js\";import{d"
+    },
+    "remote-config": {
+      "offset": 147311124,
+      "text": ">Error(`Failed to load wellknown remote config from ${T}`,{cause:f})));if(Jr(xa)(y.config))return[...n,y.config];return[...n,y]}),ri=\"wellknown:sources\",Ha=k(t),Ms=(e)=>`wellknown:manifest:${e}`,Gs=(e)=>`wellknown:config:${e}`,_O=k(xa),yO=Y(WN,p(function*(){let e=yield*Sa,o=yield*wk,n=yield*fr,i=yield*Pl(new Map),T=vr(1),s=m(\"WellKnown.loadEntry\")(function*(f){let D=yield*py(f).pipe(Oe(Sa,e),et((l)=>o.set(Ms(f),l)),Te((l)=>o.get(Ms(f)).pipe(g((H)=>Jr(_y)(H)?Me(\"failed to load wellknown manifest\",{origin:f,error:l}).pipe(xe(H)):A(l)))));return{origin:f,integrationID:Hd.make(f),manifest:D}}),d=m(\"WellKnown.load\")(function*(){let f=yield*o.get(ri),D=Jr(Ha)(f)?f:[],l=yield*la"
+    },
+    "legacy-auth": {
+      "offset": 146671978,
+      "text": "Ps=r({type:C(\"api\"),key:t,metadata:a(Q(t,t))}),js=r({type:C(\"wellknown\"),key:t,token:t}),zs=E([Ks,Ps,js]),wr=ct(rt(ae)),Hs=ct(zs),Ar=\"wellknown:sources\",Ys={id:\"20260805200742_import_legacy_credentials\",up(e){return p(function*(){let i=yield*Or;return yield*Ws(e,Fs.join(i.data,\"auth.json\"))})}},Dr=Ys;function Ws(e,i){return p(function*(){let n=yield*fe(()=>Bs(i,\"utf8\").catch(()=>{return}));if(n===void 0)return;let s=ue(wr(n));if(typeof s!==\"object\"||s===null||Array.isArray(s))return yield*A(Error(\"Legacy credential file must contain an object\"));let o=[];for(let[T,w]of Object.entries(s)){let N=ue(Hs(w));if(!N)continue;let x=T.replace(/\\/+$/,\"\");if(!x)continue;if(N.type==="
+    }
+  }
+}

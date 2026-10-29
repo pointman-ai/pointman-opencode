@@ -1,0 +1,11 @@
+{
+  "provenance": "Synthetic offline contract; no account data or real token",
+  "pointman_input": {
+    "pointman": {"type": "http", "url": "http://127.0.0.1:9999/mcp", "headers": {"Authorization": "Bearer synthetic-placeholder"}},
+    "local_example": {"command": "/example/mcp", "args": ["--one", "two words"], "env": {"EXAMPLE": "synthetic"}}
+  },
+  "opencode_expected": {
+    "pointman": {"type": "remote", "url": "http://127.0.0.1:9999/mcp", "headers": {"Authorization": "Bearer synthetic-placeholder"}, "oauth": false},
+    "local_example": {"type": "local", "command": ["/example/mcp", "--one", "two words"], "environment": {"EXAMPLE": "synthetic"}}
+  }
+}

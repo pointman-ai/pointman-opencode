@@ -1,0 +1,61 @@
+[extension]
+id = "opencode"
+name = "OpenCode"
+version = "0.1.0"
+node = ">=0.4.3"
+publisher = "aurelio"
+summary = "OpenCode with the machine's sign-in and private agent configuration."
+
+[client]
+binaries = ["opencode"]
+protocol = "opencode-stream"
+home_env = "HOME"
+# Prevent ambient provider keys from replacing the machine's saved sign-in.
+api_keys = ["ZAI_API_KEY", "ZHIPUAI_API_KEY", "ZHIPU_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY", "OPENCODE_API_KEY"]
+
+[client.install]
+# OpenCode 2.2.1 is required; stable npm may install a different CLI generation.
+from = "native"
+
+[client.sign_in]
+how = "opencode auth login (in your normal machine environment)"
+
+[client.run]
+prompt = "arg"
+args = ["run", "--standalone", "--format", "json", "{session}", "{permissions}", "{model}", "--", "{prompt}"]
+new_session = ["--session", "{value}"]
+resume = ["--session", "{value}"]
+model = ["-m", "{value}"]
+
+[client.run.env]
+XDG_CONFIG_HOME = "{home}/.config"
+OPENCODE_CONFIG_DIR = "{home}/.config/opencode"
+XDG_STATE_HOME = "{home}/.local/state"
+XDG_CACHE_HOME = "{home}/.cache"
+OPENCODE_TEST_HOME = "{home}"
+OPENCODE_CONFIG = "{home}/.config/opencode/opencode.json"
+OPENCODE_CONFIG_CONTENT = "{}"
+OPENCODE_CONFIG_PROJECT_DISABLE = "1"
+OPENCODE_DISABLE_PROJECT_CONFIG = "1"
+OPENCODE_DISABLE_CLAUDE_CODE = "1"
+OPENCODE_DISABLE_CLAUDE_CODE_SKILLS = "1"
+# XDG_DATA_HOME and OPENCODE_DB require runtime resolution, never static paths.
+
+[client.run.permissions]
+default = ["--auto"]
+auto = ["--auto"]
+acceptEdits = ["--auto"]
+plan = ["--agent", "plan"]
+
+[client.instructions]
+via = "prompt"
+
+[client.mcp]
+via = "config-file"
+file = ".config/opencode/opencode.json"
+key = "mcp"
+# opencode-stream runtime translates servers to native remote/local shapes.
+settings = { model = "zai-coding-plan/glm-5.3" }
+
+[client.limits]
+words = ["rate limit", "rate_limit", "too many requests", "quota exceeded", "usage limit", "insufficient balance"]
