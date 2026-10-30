@@ -77,7 +77,10 @@ def main():
     parser.add_argument('--output', type=Path, default=Path('release'))
     args = parser.parse_args()
     if args.download:
-        with urllib.request.urlopen(pin['platforms'][args.target]['url'], timeout=120) as response:
+        # opencode.ai answers Python's default User-Agent with 403.
+        request = urllib.request.Request(pin['platforms'][args.target]['url'],
+                                         headers={'User-Agent': 'pointman-opencode-repack'})
+        with urllib.request.urlopen(request, timeout=120) as response:
             data = response.read()
     else:
         data = args.archive.read_bytes()
