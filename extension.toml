@@ -1,7 +1,7 @@
 [extension]
 id = "opencode"
 name = "OpenCode"
-version = "0.1.0"
+version = "0.1.1"
 node = ">=0.4.3"
 publisher = "aurelio"
 summary = "OpenCode with the machine's sign-in and private agent configuration."
