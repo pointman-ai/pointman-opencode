@@ -16,10 +16,11 @@ in the ordinary machine environment. The release installer uses this repositoryâ
 has `/opt/homebrew/bin/opencode`, version 2.2.1. Other platforms are unverified.
 No key form or vault secret is defined by this extension.
 
-The repository has no published release yet. The artifact-only `repack.yml`
-workflow downloads pinned official archives and produces node-compatible archives
-plus checksums. It does not publish a release. The existing release-extension
-workflow remains the publication path after review. See [UPSTREAM.md](UPSTREAM.md).
+The `repack.yml` workflow downloads pinned official archives and produces
+node-compatible archives plus checksums. On a `v*` tag each build attaches them
+to the tag's release (made at the merge by the release-extension workflow, or by
+`repack.yml` when it isn't there yet); a manual run only checks them. See
+[UPSTREAM.md](UPSTREAM.md).
 
 ## A wake
 
