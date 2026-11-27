@@ -50,7 +50,7 @@ def repack(data, target, pin, output):
     output.mkdir(parents=True, exist_ok=True)
     name = f'opencode-{target}'
     dest = output / f'{name}.tar.gz'
-    # Exact root filename is required by node/src/clients.rs release().
+    # Exact root filename is required by the node's harness release install.
     members = [(name, executable, 0o755),
                ('LICENSE.opencode', (ROOT / 'LICENSE.opencode').read_bytes(), 0o644),
                ('upstream.json', (json.dumps(pin, indent=2) + '\n').encode(), 0o644)]

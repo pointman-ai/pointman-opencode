@@ -1,6 +1,6 @@
-# Pointman OpenCode client
+# Pointman OpenCode harness
 
-A standalone client extension for OpenCode **2.2.1**, using the machine's existing
+A standalone harness extension for OpenCode **2.2.1**, using the machine's existing
 OpenCode sign-in. Its official icon is recorded in ICON-SOURCE.md.
 
 Requires Pointman node **0.4.3 or newer with AGC-75 support**: `opencode-stream`,
@@ -68,7 +68,7 @@ in `tests/fixtures/mcp-contract.json`.
 
 Private `XDG_CONFIG_HOME` keeps the machine's user config out of agent runs.
 Effective config and remember/recall runs were verified with OpenCode 2.2.1 on
-mac-m4. No Python or database preflight runs before the client starts.
+mac-m4. No Python or database preflight runs before the harness starts.
 If OpenCode produces no stdout within 120 seconds, the node ends the run with
 "OpenCode didn't start" and the timeout, rather than waiting silently.
 
