@@ -10,19 +10,19 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = tomllib.loads((ROOT / 'extension.toml').read_text())
-CLIENT = MANIFEST['client']
+HARNESS = MANIFEST['harness']
 
 
 class Contract(unittest.TestCase):
     def test_install_requires_reviewed_release(self):
         self.assertEqual(MANIFEST['extension']['id'], 'opencode')
-        self.assertEqual(CLIENT['protocol'], 'opencode-stream')
-        self.assertEqual(CLIENT['binaries'], ['opencode'])
-        self.assertEqual(CLIENT['install'], {'from': 'release', 'repo': 'pointman-ai/pointman-opencode', 'asset': 'opencode-{platform}.tar.gz'})
-        self.assertNotIn('npm', CLIENT)
+        self.assertEqual(HARNESS['protocol'], 'opencode-stream')
+        self.assertEqual(HARNESS['binaries'], ['opencode'])
+        self.assertEqual(HARNESS['install'], {'from': 'release', 'repo': 'pointman-ai/pointman-opencode', 'asset': 'opencode-{platform}.tar.gz'})
+        self.assertNotIn('npm', HARNESS)
 
     def test_exact_session_and_prompt_boundary(self):
-        run = CLIENT['run']
+        run = HARNESS['run']
         self.assertEqual(run['prompt'], 'arg')
         for name in ('new_session', 'resume'):
             self.assertEqual(run[name], ['--session', '{value}'])
@@ -33,8 +33,8 @@ class Contract(unittest.TestCase):
         self.assertFalse({'--continue', '--server', '--fork'} & set(run['args']))
 
     def test_private_config_without_hardcoding_machine_data(self):
-        self.assertEqual(CLIENT['home_env'], 'HOME')
-        env = CLIENT['run']['env']
+        self.assertEqual(HARNESS['home_env'], 'HOME')
+        env = HARNESS['run']['env']
         for name in ('XDG_CONFIG_HOME', 'XDG_CACHE_HOME', 'XDG_STATE_HOME',
                      'OPENCODE_CONFIG_DIR', 'OPENCODE_CONFIG', 'OPENCODE_TEST_HOME'):
             self.assertTrue(env[name].startswith('{home}'), name)
@@ -44,19 +44,19 @@ class Contract(unittest.TestCase):
         for name in ('OPENCODE_CONFIG_PROJECT_DISABLE', 'OPENCODE_DISABLE_PROJECT_CONFIG',
                      'OPENCODE_DISABLE_CLAUDE_CODE', 'OPENCODE_DISABLE_CLAUDE_CODE_SKILLS'):
             self.assertEqual(env[name], '1')
-        self.assertEqual(env['OPENCODE_CONFIG'], '{home}/' + CLIENT['mcp']['file'])
+        self.assertEqual(env['OPENCODE_CONFIG'], '{home}/' + HARNESS['mcp']['file'])
 
     def test_no_vault_key_or_offline_account_probe(self):
         for name in ('credentials', 'commands', 'permissions'):
             self.assertNotIn(name, MANIFEST)
-        self.assertNotIn('key', CLIENT)
-        self.assertNotIn('check', CLIENT['sign_in'])
-        self.assertIn('ZAI_API_KEY', CLIENT['api_keys'])
+        self.assertNotIn('key', HARNESS)
+        self.assertNotIn('check', HARNESS['sign_in'])
+        self.assertIn('ZAI_API_KEY', HARNESS['api_keys'])
 
     def test_behaviours_model_and_permission_mapping(self):
-        self.assertEqual(CLIENT['instructions'], {'via': 'prompt'})
-        self.assertEqual(CLIENT['mcp']['settings']['model'], 'zai-coding-plan/glm-5.3')
-        permissions = CLIENT['run']['permissions']
+        self.assertEqual(HARNESS['instructions'], {'via': 'prompt'})
+        self.assertEqual(HARNESS['mcp']['settings']['model'], 'zai-coding-plan/glm-5.3')
+        permissions = HARNESS['run']['permissions']
         self.assertEqual(permissions['default'], ['--auto'])
         self.assertEqual(permissions['acceptEdits'], [])
         self.assertEqual(permissions['plan'], ['--agent', 'plan'])
@@ -72,7 +72,7 @@ class Contract(unittest.TestCase):
         local = before['local_example']
         self.assertEqual(after['local_example']['command'], [local['command'], *local['args']])
         self.assertEqual(after['local_example']['environment'], local['env'])
-        self.assertEqual(CLIENT['mcp']['key'], 'mcp')
+        self.assertEqual(HARNESS['mcp']['key'], 'mcp')
 
     def test_code_evidence_is_versioned_without_runtime_data(self):
         e = json.loads((ROOT / 'research/installed-evidence.json').read_text())
@@ -93,7 +93,7 @@ class InstalledHelp(unittest.TestCase):
             for kind in ('DATA', 'CONFIG', 'CACHE', 'STATE'):
                 env[f'XDG_{kind}_HOME'] = str(root / kind.lower())
             env.update({key: value.replace('{home}', folder)
-                        for key, value in CLIENT['run']['env'].items()})
+                        for key, value in HARNESS['run']['env'].items()})
             def probe(*args):
                 result = subprocess.run([binary, *args], cwd=folder, env=env,
                                         capture_output=True, text=True, timeout=20)
